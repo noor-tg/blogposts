@@ -17,26 +17,44 @@ func (fs StubFailingFS) Open(name string) (fs.File, error) {
 }
 
 func TestNewBlogPosts(t *testing.T) {
+	const (
+		firstBody = `Title: title
+Description: desc`
+	)
 	fs := fstest.MapFS{
-		"hello world.md":  {Data: []byte("Title: hi")},
-		"hello-world2.md": {Data: []byte("Title: hola")},
+		"hello world.md": {Data: []byte(firstBody)},
 	}
 
 	posts, err := blogposts.NewPostsFromFS(fs)
 
-	if err != nil {
-		t.Fatal(err)
-	}
+	assertNoError(t, err)
 
-	if len(posts) != len(fs) {
-		t.Errorf("got %d posts, wanted  %d posts", len(posts), len(fs))
-	}
+	assertSameLength(t, posts, fs)
 
 	got := posts[0]
 
-	want := blogposts.Post{Title: "hi"}
+	assertPost(t, got, blogposts.Post{
+		Title:       "title",
+		Description: "desc",
+	})
+}
 
+func assertPost(t *testing.T, got blogposts.Post, want blogposts.Post) {
+	t.Helper()
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %+v, wanted %+v", got, want)
+		t.Errorf("got %+v, want %+v", got, want)
+	}
+}
+func assertNoError(t *testing.T, err error) {
+	t.Helper()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func assertSameLength(t *testing.T, posts []blogposts.Post, fs fstest.MapFS) {
+	t.Helper()
+	if len(posts) != len(fs) {
+		t.Errorf("got %d posts, wanted  %d posts", len(posts), len(fs))
 	}
 }
