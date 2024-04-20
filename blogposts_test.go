@@ -20,9 +20,12 @@ func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: title
 Description: desc`
+		secondBody = `Title: title
+Description: desc`
 	)
 	fs := fstest.MapFS{
 		"hello world.md": {Data: []byte(firstBody)},
+		"world2.md":      {Data: []byte(secondBody)},
 	}
 
 	posts, err := blogposts.NewPostsFromFS(fs)
