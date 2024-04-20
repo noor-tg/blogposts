@@ -20,14 +20,12 @@ func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: title
 Description: desc
-Tags: blog, work, test`
-		secondBody = `Title: title
-Description: desc
-Tags: blog, work, test`
+Tags: blog, work, test
+---
+this is the body`
 	)
 	fs := fstest.MapFS{
 		"hello world.md": {Data: []byte(firstBody)},
-		"world2.md":      {Data: []byte(secondBody)},
 	}
 
 	posts, err := blogposts.NewPostsFromFS(fs)
@@ -42,6 +40,7 @@ Tags: blog, work, test`
 		Title:       "title",
 		Description: "desc",
 		Tags:        []string{"blog", "work", "test"},
+		Body:        "this is the body",
 	})
 }
 
