@@ -19,9 +19,11 @@ func (fs StubFailingFS) Open(name string) (fs.File, error) {
 func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: title
-Description: desc`
+Description: desc
+Tags: blog, work, test`
 		secondBody = `Title: title
-Description: desc`
+Description: desc
+Tags: blog, work, test`
 	)
 	fs := fstest.MapFS{
 		"hello world.md": {Data: []byte(firstBody)},
@@ -39,6 +41,7 @@ Description: desc`
 	assertPost(t, got, blogposts.Post{
 		Title:       "title",
 		Description: "desc",
+		Tags:        []string{"blog", "work", "test"},
 	})
 }
 
