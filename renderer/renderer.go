@@ -18,7 +18,7 @@ func Render(w io.Writer, post reader.Post) error {
 	// exec template with post data
 	// handle error if exist
 	// store returned string from rendered template to buffer
-	if err := templ.Execute(w, post); err != nil {
+	if err := templ.ExecuteTemplate(w, "blog.gohtml", post); err != nil {
 		return err
 	}
 
