@@ -18,12 +18,17 @@ func TestRenderer(t *testing.T) {
 		Tags:        []string{"go", "tdd"},
 	}
 
+	postRenderer, err := NewPostRenderer()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	t.Run("it converts a single post to html", func(t *testing.T) {
 		buf := bytes.Buffer{}
-		err := Render(&buf, post)
 
-		if err != nil {
-			t.Fatalf("error %s", err)
+		if postRenderer.Render(&buf, post); err != nil {
+			t.Fatal(err)
 		}
 
 		approvals.VerifyString(t, buf.String())
@@ -37,9 +42,15 @@ func BenchmarkRenderer(b *testing.B) {
 		Description: "This is a description",
 		Tags:        []string{"go", "tdd"},
 	}
+	postRenderer, err := NewPostRenderer()
+
+	if err != nil {
+		b.Fatal(err)
+	}
+
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		Render(io.Discard, post)
+		postRenderer.Render(io.Discard, post)
 	}
 }
