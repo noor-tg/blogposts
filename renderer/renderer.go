@@ -2,26 +2,23 @@ package renderer
 
 import (
 	"alnoor/blogposts/reader"
-	"fmt"
+	"html/template"
 	"io"
 )
 
+const postTemplate = `<h1>{{.Title}}</h1>
+<p>{{.Description}}</p>
+Tags:<ul>
+{{ range .Tags }}<li>{{.}}</li>{{end}}
+</ul>`
+
 func Render(w io.Writer, post reader.Post) error {
-	_, err := fmt.Fprintf(w, "<h1>%s</h1>\n<p>%s</p>\n", post.Title, post.Description)
+	templ, err := template.New("blog").Parse(postTemplate)
 	if err != nil {
 		return err
 	}
 
-	fmt.Fprint(w, `Tags:<ul>`)
-	for _, tag := range post.Tags {
-		_, err := fmt.Fprintf(w, `<li>%s</li>`, tag)
-		if err != nil {
-			return err
-		}
-	}
-
-	fmt.Fprint(w, `</ul>`)
-	if err != nil {
+	if err := templ.Execute(w, post); err != nil {
 		return err
 	}
 
