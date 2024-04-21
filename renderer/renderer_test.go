@@ -4,6 +4,7 @@ import (
 	"alnoor/blogposts/reader"
 	"bytes"
 	"io"
+	"os"
 	"testing"
 
 	approvals "github.com/approvals/go-approval-tests"
@@ -11,13 +12,12 @@ import (
 
 func TestRenderer(t *testing.T) {
 	approvals.UseFolder("testData")
-	post := reader.Post{
-		Title:       "hello world",
-		Body:        "this is post",
-		Description: "this is description",
-		Tags:        []string{"go", "tdd"},
+	posts, err := reader.NewPostsFromFS(os.DirFS("../examples"))
+	if err != nil {
+		t.Fatal(err)
 	}
 
+	post := posts[0]
 	postRenderer, err := NewPostRenderer()
 
 	if err != nil {
