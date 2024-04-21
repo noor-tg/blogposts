@@ -1,7 +1,6 @@
-package reader_test
+package reader
 
 import (
-	"alnoor/blogposts/reader"
 	"errors"
 	"io/fs"
 	"reflect"
@@ -27,7 +26,7 @@ this is the body`
 		"hello world.md": {Data: []byte(firstBody)},
 	}
 
-	posts, err := reader.NewPostsFromFS(fs)
+	posts, err := NewPostsFromFS(fs)
 
 	assertNoError(t, err)
 
@@ -35,7 +34,7 @@ this is the body`
 
 	got := posts[0]
 
-	assertPost(t, got, reader.Post{
+	assertPost(t, got, Post{
 		Title:       "title",
 		Description: "desc",
 		Tags:        []string{"blog", "work", "test"},
@@ -43,7 +42,7 @@ this is the body`
 	})
 }
 
-func assertPost(t *testing.T, got reader.Post, want reader.Post) {
+func assertPost(t *testing.T, got Post, want Post) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %+v, want %+v", got, want)
@@ -56,7 +55,7 @@ func assertNoError(t *testing.T, err error) {
 	}
 }
 
-func assertSameLength(t *testing.T, posts []reader.Post, fs fstest.MapFS) {
+func assertSameLength(t *testing.T, posts []Post, fs fstest.MapFS) {
 	t.Helper()
 	if len(posts) != len(fs) {
 		t.Errorf("got %d posts, wanted  %d posts", len(posts), len(fs))

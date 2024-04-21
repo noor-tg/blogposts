@@ -1,9 +1,9 @@
-package renderer_test
+package renderer
 
 import (
 	"alnoor/blogposts/reader"
-	"alnoor/blogposts/renderer"
 	"bytes"
+	"io"
 	"testing"
 
 	approvals "github.com/approvals/go-approval-tests"
@@ -20,7 +20,7 @@ func TestRenderer(t *testing.T) {
 
 	t.Run("it converts a single post to html", func(t *testing.T) {
 		buf := bytes.Buffer{}
-		err := renderer.Render(&buf, post)
+		err := Render(&buf, post)
 
 		if err != nil {
 			t.Fatalf("error %s", err)
@@ -28,4 +28,18 @@ func TestRenderer(t *testing.T) {
 
 		approvals.VerifyString(t, buf.String())
 	})
+}
+
+func BenchmarkRenderer(b *testing.B) {
+	var post = reader.Post{
+		Title:       "hello world",
+		Body:        "This is a post",
+		Description: "This is a description",
+		Tags:        []string{"go", "tdd"},
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Render(io.Discard, post)
+	}
 }
