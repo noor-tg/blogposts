@@ -1,3 +1,3 @@
-module github.com/nour_dev/blogposts
+module alnoor/blogposts
 
 go 1.22.2

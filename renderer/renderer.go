@@ -1,10 +1,9 @@
 package renderer
 
 import (
+	"alnoor/blogposts/reader"
 	"fmt"
 	"io"
-
-	"github.com/nour_dev/blogposts/reader"
 )
 
 func Render(w io.Writer, post reader.Post) error {

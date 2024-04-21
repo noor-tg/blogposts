@@ -1,13 +1,12 @@
 package reader_test
 
 import (
+	"alnoor/blogposts/reader"
 	"errors"
 	"io/fs"
 	"reflect"
 	"testing"
 	"testing/fstest"
-
-	"github.com/nour_dev/blogposts/reader"
 )
 
 type StubFailingFS struct{}

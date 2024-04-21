@@ -1,11 +1,10 @@
 package renderer_test
 
 import (
+	"alnoor/blogposts/reader"
+	"alnoor/blogposts/renderer"
 	"bytes"
 	"testing"
-
-	"github.com/nour_dev/blogposts/reader"
-	"github.com/nour_dev/blogposts/renderer"
 )
 
 func TestRenderer(t *testing.T) {
