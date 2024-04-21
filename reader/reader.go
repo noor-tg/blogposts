@@ -1,4 +1,4 @@
-package blogposts
+package reader
 
 import (
 	"io/fs"

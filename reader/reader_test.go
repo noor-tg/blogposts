@@ -1,4 +1,4 @@
-package blogposts_test
+package reader_test
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/nour_dev/blogposts"
+	"github.com/nour_dev/blogposts/reader"
 )
 
 type StubFailingFS struct{}
@@ -28,7 +28,7 @@ this is the body`
 		"hello world.md": {Data: []byte(firstBody)},
 	}
 
-	posts, err := blogposts.NewPostsFromFS(fs)
+	posts, err := reader.NewPostsFromFS(fs)
 
 	assertNoError(t, err)
 
@@ -36,7 +36,7 @@ this is the body`
 
 	got := posts[0]
 
-	assertPost(t, got, blogposts.Post{
+	assertPost(t, got, reader.Post{
 		Title:       "title",
 		Description: "desc",
 		Tags:        []string{"blog", "work", "test"},
@@ -44,7 +44,7 @@ this is the body`
 	})
 }
 
-func assertPost(t *testing.T, got blogposts.Post, want blogposts.Post) {
+func assertPost(t *testing.T, got reader.Post, want reader.Post) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %+v, want %+v", got, want)
@@ -57,7 +57,7 @@ func assertNoError(t *testing.T, err error) {
 	}
 }
 
-func assertSameLength(t *testing.T, posts []blogposts.Post, fs fstest.MapFS) {
+func assertSameLength(t *testing.T, posts []reader.Post, fs fstest.MapFS) {
 	t.Helper()
 	if len(posts) != len(fs) {
 		t.Errorf("got %d posts, wanted  %d posts", len(posts), len(fs))
