@@ -1,19 +1,15 @@
 package renderer
 
 import (
+	"alnoor/blogposts"
 	"alnoor/blogposts/reader"
 	"html/template"
 	"io"
 )
 
-const postTemplate = `<h1>{{.Title}}</h1>
-<p>{{.Description}}</p>
-Tags:<ul>
-{{ range .Tags }}<li>{{.}}</li>{{end}}
-</ul>`
-
 func Render(w io.Writer, post reader.Post) error {
-	templ, err := template.New("blog").Parse(postTemplate)
+	templ, err := template.ParseFS(blogposts.PostTemplate, "templates/*.gohtml")
+
 	if err != nil {
 		return err
 	}

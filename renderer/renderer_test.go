@@ -5,9 +5,12 @@ import (
 	"alnoor/blogposts/renderer"
 	"bytes"
 	"testing"
+
+	approvals "github.com/approvals/go-approval-tests"
 )
 
 func TestRenderer(t *testing.T) {
+	approvals.UseFolder("testData")
 	post := reader.Post{
 		Title:       "hello world",
 		Body:        "this is post",
@@ -23,16 +26,6 @@ func TestRenderer(t *testing.T) {
 			t.Fatalf("error %s", err)
 		}
 
-		got := buf.String()
-
-		want := `<h1>hello world</h1>
-<p>this is description</p>
-Tags:<ul>
-<li>go</li><li>tdd</li>
-</ul>`
-
-		if got != want {
-			t.Errorf("got %s want %s", got, want)
-		}
+		approvals.VerifyString(t, buf.String())
 	})
 }
