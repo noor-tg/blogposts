@@ -24,6 +24,7 @@ func PostGenerator() {
 	// read examples dir for posts as markdown
 	posts, err := reader.NewPostsFromFS(os.DirFS("../examples"))
 	if err != nil {
+		fmt.Print(err)
 		panic("could not read dir 'examples'")
 	}
 
@@ -32,6 +33,8 @@ func PostGenerator() {
 	if err != nil {
 		panic("could not read make new post renderer")
 	}
+
+	makeDest()
 
 	// prepare file mode to write, create if not exist or clear if exist
 	mode := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
@@ -51,5 +54,25 @@ func PostGenerator() {
 		// render post file
 		postRenderer.Render(file, post)
 		fmt.Printf("finish write to file %s\n", file.Name())
+	}
+}
+
+func makeDest() {
+	// Directory path you want to create
+	dirPath := "dest"
+
+	// Check if the directory exists
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		// Create the directory if it does not exist
+		err := os.Mkdir(dirPath, 0755) // 0755 is the Unix permission mode for the directory
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+		fmt.Println("Directory created:", dirPath)
+	} else if err != nil {
+		// Handle other errors
+		fmt.Println("Error:", err)
+		return
 	}
 }
