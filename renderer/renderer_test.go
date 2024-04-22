@@ -33,6 +33,17 @@ func TestRenderer(t *testing.T) {
 
 		approvals.VerifyString(t, buf.String())
 	})
+
+	t.Run("it converts multiple posts to html list in index file", func(t *testing.T) {
+		buf := bytes.Buffer{}
+
+		if postRenderer.RenderIndex(&buf, posts); err != nil {
+			t.Fatal(err)
+		}
+
+		approvals.VerifyString(t, buf.String())
+	})
+
 }
 
 func BenchmarkRenderer(b *testing.B) {

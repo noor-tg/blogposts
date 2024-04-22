@@ -32,21 +32,6 @@ func NewPostRenderer() (*PostRenderer, error) {
 	return &PostRenderer{templ: out}, nil
 }
 
-func (r *PostRenderer) Render(w io.Writer, post reader.Post) error {
-
-	// convert body markdown to html
-	post.Body = bodyParser(post)
-
-	// exec template with post data
-	// handle error if exist
-	// store returned string from rendered template to buffer
-	if err := r.templ.ExecuteTemplate(w, "blog.gohtml", post); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func bodyParser(post reader.Post) string {
 	var buf bytes.Buffer
 
@@ -55,4 +40,18 @@ func bodyParser(post reader.Post) string {
 	}
 
 	return buf.String()
+}
+
+func (r *PostRenderer) Render(w io.Writer, post reader.Post) error {
+	// convert body markdown to html
+	post.Body = bodyParser(post)
+
+	// exec template with post data
+	// handle error if exist
+	// store returned string from rendered template to buffer
+	return r.templ.ExecuteTemplate(w, "blog.gohtml", post)
+}
+
+func (r PostRenderer) RenderIndex(w io.Writer, posts []reader.Post) error {
+	return r.templ.ExecuteTemplate(w, "index.gohtml", posts)
 }

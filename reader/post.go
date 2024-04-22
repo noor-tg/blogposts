@@ -62,3 +62,7 @@ func readBody(scanner *bufio.Scanner) string {
 	// add new line to end of buffer string because it is removed by fprintln
 	return strings.TrimSuffix(buf.String(), "\n")
 }
+
+func (p Post) SanitisedTitle() string {
+	return strings.ToLower(strings.Replace(p.Title, " ", "-", -1))
+}
