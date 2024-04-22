@@ -4,20 +4,21 @@ import (
 	"alnoor/blogposts/reader"
 	"alnoor/blogposts/renderer"
 	"fmt"
+	"net/http"
 	"os"
 )
 
 func main() {
 	PostGenerator()
-	// fileServer()
+	fileServer()
 }
 
-// func fileServer() {
-// 	fs := http.FileServer(http.Dir("dest"))
-// 	http.Handle("/", fs)
+func fileServer() {
+	fs := http.FileServer(http.Dir("dest"))
+	http.Handle("/", fs)
 
-// 	http.ListenAndServe(":8080", nil)
-// }
+	http.ListenAndServe(":8080", nil)
+}
 
 func PostGenerator() {
 	// read examples dir for posts as markdown
