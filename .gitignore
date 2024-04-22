@@ -8,4 +8,4 @@
 ## ignore text, html files
 *.txt
 *.html
-main/dest/*.css
+dest/*.css

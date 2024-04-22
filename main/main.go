@@ -22,7 +22,7 @@ func fileServer() {
 
 func PostGenerator() {
 	// read examples dir for posts as markdown
-	posts, err := reader.NewPostsFromFS(os.DirFS("../examples"))
+	posts, err := reader.NewPostsFromFS(os.DirFS("./examples"))
 	if err != nil {
 		fmt.Print(err)
 		panic("could not read dir 'examples'")

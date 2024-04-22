@@ -2,6 +2,15 @@
 learn about making markdown parser for blog with golang.
 using tdd.
 
+
+## dependances
+- install gow (go watcher)
+```sh
+go install github.com/mitranim/gow@latest
+```
+- download [tailwindcss cli](https://github.com/tailwindlabs/tailwindcss/releases/latest)
+- add to tailwind cli to path
+
 ## build
 ```sh
 go build
@@ -12,9 +21,16 @@ go build
 go test
 ```
 
+## run in devmode
+```
+  ## run go server and restart on files change
+  gow -e=go,gohtml,css -w .. run main.go
+  ## generate tailwindcss classes watch changes
+  tailwind -i static/style.css -o dest/style.css --watch
+```
+
 
 ## Performance
-
 Old Test benchmark
 ```
 pkg: alnoor/blogposts/renderer
