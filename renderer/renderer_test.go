@@ -12,7 +12,7 @@ import (
 
 func TestRenderer(t *testing.T) {
 	approvals.UseFolder("testData")
-	posts, err := reader.NewPostsFromFS(os.DirFS("../examples"))
+	posts, err := reader.NewPostsFromFS(os.DirFS("../assets/examples"))
 	if err != nil {
 		t.Fatal(err)
 	}

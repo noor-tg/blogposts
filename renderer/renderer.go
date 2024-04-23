@@ -1,7 +1,7 @@
 package renderer
 
 import (
-	"alnoor/blogposts"
+	"alnoor/blogposts/assets"
 	"alnoor/blogposts/reader"
 	"bytes"
 	"html/template"
@@ -24,7 +24,7 @@ func NewPostRenderer() (*PostRenderer, error) {
 	}})
 
 	// parse template from embedded fs
-	out, err := templ.ParseFS(blogposts.PostTemplate, "templates/*.gohtml")
+	out, err := templ.ParseFS(assets.PostTemplate, "templates/*.gohtml")
 	if err != nil {
 		return nil, err
 	}

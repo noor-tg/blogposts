@@ -13,7 +13,8 @@ go install github.com/mitranim/gow@latest
 
 ## build
 ```sh
-go build
+go build -o blog
+tailwindcss -i static/style.css -o dest/style.css --minify
 ```
 
 ## test
@@ -26,7 +27,7 @@ go test
   ## run go server and restart on files change
   gow -e=go,gohtml,css -w .. run main.go
   ## generate tailwindcss classes watch changes
-  tailwind -i static/style.css -o dest/style.css --watch
+  tailwindcss -i static/style.css -o dest/style.css --watch
 ```
 
 
